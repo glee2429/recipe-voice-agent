@@ -58,6 +58,10 @@ curl -s -X POST "${RECIPE_LM_API_URL}/parse-ingredients" \
 3. Format the response for voice: first read the Ingredients section,
    then the Directions section. Clearly announce each section
    (e.g., "Here are the ingredients..." then "And the directions...").
-4. Ask clarifying questions if the dish name is ambiguous.
-5. If the API is unavailable, apologize and suggest trying again later.
-6. Keep responses concise -- voice callers do not want lengthy text.
+4. After reading the recipe over voice, ALWAYS send a follow-up SMS
+   to the caller with the full recipe text. Use the sessions_send tool
+   to send it. Format the SMS clearly with the dish name, ingredients,
+   and directions so the caller can reference it later while cooking.
+5. Ask clarifying questions if the dish name is ambiguous.
+6. If the API is unavailable, apologize and suggest trying again later.
+7. Keep voice responses concise -- the full details are in the SMS.
