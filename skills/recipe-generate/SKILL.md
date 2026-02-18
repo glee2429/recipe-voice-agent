@@ -19,7 +19,7 @@ To generate a recipe, run this curl command using the Bash tool:
 curl -s -N -X POST "${RECIPE_LM_API_URL}/generate" \
   -H "Content-Type: application/json" \
   -d "{\"prompt\": \"Recipe for DISH_NAME:\", \"max_tokens\": 512, \"temperature\": 0.7}" \
-  2>/dev/null | grep -o '"full_text":"[^"]*"' | tail -1 | sed 's/"full_text":"//;s/"$//'
+  2>/dev/null | sed -n 's/^data: //p' | tail -1 | jq -r '.full_text // empty'
 ```
 
 Replace `DISH_NAME` with the user's requested dish.
