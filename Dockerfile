@@ -12,7 +12,7 @@ USER node
 WORKDIR /home/node
 
 # Create directory structure
-RUN mkdir -p .openclaw/skills .openclaw/workspace
+RUN mkdir -p .openclaw/skills .openclaw/workspace .openclaw/agents
 
 # Copy configuration
 COPY --chown=node:node config/openclaw.json .openclaw/openclaw.json

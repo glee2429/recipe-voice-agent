@@ -26,7 +26,7 @@
   },
 
   "tools": {
-    "allow": [
+    "alsoAllow": [
       "sessions_send",
       "bash"
     ],
