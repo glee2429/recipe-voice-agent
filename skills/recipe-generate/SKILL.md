@@ -18,7 +18,7 @@ To generate a recipe, run this curl command using the exec tool:
 ```bash
 curl -s -N -X POST "${RECIPE_LM_API_URL}/generate" \
   -H "Content-Type: application/json" \
-  -d "{\"prompt\": \"Recipe for DISH_NAME:\", \"max_tokens\": 256, \"temperature\": 0.7}" \
+  -d "{\"prompt\": \"Recipe for DISH_NAME:\", \"max_tokens\": 512, \"temperature\": 0.7}" \
   2>/dev/null | grep -o '"full_text":"[^"]*"' | tail -1 | sed 's/"full_text":"//;s/"$//'
 ```
 
@@ -27,6 +27,11 @@ Replace `DISH_NAME` with the user's requested dish.
 **Important**: The API returns Server-Sent Events. The final event
 contains `"done": true` and `"full_text"` with the complete cleaned
 recipe. The command above extracts just the final recipe text.
+
+The recipe MUST contain both an `Ingredients:` section and a `Directions:`
+section. If the output is missing either section, re-run the command with
+`max_tokens` set to 768. Do NOT supplement or rewrite the recipe yourself
+-- always use the model output as-is.
 
 ### Checking API Health
 
@@ -48,8 +53,11 @@ curl -s -X POST "${RECIPE_LM_API_URL}/parse-ingredients" \
 
 1. When a user asks to cook something, ALWAYS use this tool to generate
    the recipe. Do not make up recipes from your training data.
-2. Format the response for voice: read ingredients as a list, then
-   directions step by step.
-3. Ask clarifying questions if the dish name is ambiguous.
-4. If the API is unavailable, apologize and suggest trying again later.
-5. Keep responses concise -- voice callers do not want lengthy text.
+2. Read the recipe back exactly as the model generated it. Do NOT
+   rewrite, paraphrase, or add your own ingredients or steps.
+3. Format the response for voice: first read the Ingredients section,
+   then the Directions section. Clearly announce each section
+   (e.g., "Here are the ingredients..." then "And the directions...").
+4. Ask clarifying questions if the dish name is ambiguous.
+5. If the API is unavailable, apologize and suggest trying again later.
+6. Keep responses concise -- voice callers do not want lengthy text.
