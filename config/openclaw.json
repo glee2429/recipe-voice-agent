@@ -31,7 +31,14 @@
       "browser",
       "canvas",
       "process",
-      "web_fetch"
+      "web_fetch",
+      "message",
+      "memory_search",
+      "gateway",
+      "notebook",
+      "glob",
+      "grep",
+      "list"
     ]
   },
 
