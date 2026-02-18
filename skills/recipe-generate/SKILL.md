@@ -49,19 +49,22 @@ curl -s -X POST "${RECIPE_LM_API_URL}/parse-ingredients" \
   -d "{\"text\": \"RECIPE_TEXT_HERE\"}" | jq '.ingredients'
 ```
 
-### Usage Guidelines
+### Required Workflow (follow every step in order)
 
-1. When a user asks to cook something, ALWAYS use this tool to generate
-   the recipe. Do not make up recipes from your training data.
-2. Read the recipe back exactly as the model generated it. Do NOT
-   rewrite, paraphrase, or add your own ingredients or steps.
-3. Format the response for voice: first read the Ingredients section,
-   then the Directions section. Clearly announce each section
-   (e.g., "Here are the ingredients..." then "And the directions...").
-4. After reading the recipe over voice, ask the caller if they would
-   like the recipe sent as a text message. If they say yes, use the
-   sessions_send tool to send an SMS with the full recipe (dish name,
-   ingredients, and directions) so they can reference it while cooking.
-5. Ask clarifying questions if the dish name is ambiguous.
-6. If the API is unavailable, apologize and suggest trying again later.
-7. Keep voice responses concise -- the full details are in the SMS.
+**Step 1.** Generate the recipe using the curl command above.
+
+**Step 2.** Read the recipe to the caller: Ingredients first, then
+Directions. Read the model output as-is — do NOT rewrite or add steps.
+
+**Step 3.** After finishing the recipe, you MUST say:
+"Would you like me to text you the recipe so you can follow along
+while you cook?"
+
+**Step 4.** If they say yes, use the sessions_send tool to send an SMS
+with the full recipe (dish name, ingredients, and directions).
+
+### Other Guidelines
+
+- Ask clarifying questions if the dish name is ambiguous.
+- If the API is unavailable, apologize and suggest trying again later.
+- Do not make up recipes — ALWAYS use this tool.
