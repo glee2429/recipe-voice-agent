@@ -29,9 +29,7 @@
     "profile": "minimal",
     "allow": [
       "sessions_send",
-      "exec",
-      "web_fetch",
-      "read"
+      "exec"
     ],
     "deny": [
       "write",
@@ -39,7 +37,9 @@
       "apply_patch",
       "browser",
       "canvas",
-      "process"
+      "process",
+      "read",
+      "web_fetch"
     ],
     "exec": {
       "timeoutSec": 30
