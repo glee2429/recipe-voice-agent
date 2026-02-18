@@ -64,7 +64,11 @@ Directions. Read the model output as-is — do NOT rewrite or add steps.
 
 **Step 5.** Once the caller gives their phone number, you MUST immediately
 run this command using the bash tool. Do NOT skip this step. Do NOT just
-say you will send it — you must actually run the command:
+say you will send it — you must actually run the command.
+
+CRITICAL: Use the EXACT phone number the caller told you. NEVER use
+a placeholder, example, or 555 number. If the caller says "415 361 0188",
+the number is "+14153610188".
 
 ```bash
 ~/scripts/send-sms.sh "+1XXXXXXXXXX" "Recipe for Dish Name
@@ -78,9 +82,9 @@ Directions:
 2. step 2"
 ```
 
-Replace `+1XXXXXXXXXX` with the caller's number in E.164 format
-(+1 followed by 10 digits for US numbers). Replace the recipe text
-with the actual recipe you generated in Step 1.
+Replace `+1XXXXXXXXXX` with the EXACT number the caller said, in E.164
+format (+1 followed by 10 digits for US numbers). Replace the recipe
+text with the actual recipe you generated in Step 1.
 
 After running the command, tell the caller: "Done! I just sent it."
 
