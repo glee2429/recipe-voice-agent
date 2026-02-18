@@ -1,0 +1,21 @@
+services:
+  recipe-voice-agent:
+    build: .
+    container_name: recipe-voice-agent
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - RECIPE_LM_API_URL=${RECIPE_LM_API_URL:-https://ClaireLee2429-recipe-lm-api.hf.space}
+    ports:
+      - "127.0.0.1:18789:18789"
+    volumes:
+      - openclaw_sessions:/home/clawuser/.openclaw/agents
+    healthcheck:
+      test: ["CMD", "/home/clawuser/scripts/healthcheck.sh"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  openclaw_sessions:

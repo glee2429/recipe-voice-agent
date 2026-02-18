@@ -1,0 +1,74 @@
+{
+  "gateway": {
+    "port": 18789,
+    "bind": "loopback",
+    "auth": {
+      "mode": "token",
+      "token": "${OPENCLAW_GATEWAY_TOKEN}"
+    }
+  },
+
+  "agents": {
+    "defaults": {
+      "workspace": "~/.openclaw/workspace",
+      "model": {
+        "primary": "anthropic/claude-sonnet-4-5"
+      },
+      "contextTokens": 50000,
+      "maxConcurrent": 2
+    }
+  },
+
+  "tools": {
+    "profile": "minimal",
+    "allow": [
+      "sessions_send",
+      "exec",
+      "web_fetch",
+      "read"
+    ],
+    "deny": [
+      "write",
+      "edit",
+      "apply_patch",
+      "browser",
+      "canvas",
+      "process"
+    ],
+    "exec": {
+      "timeoutSec": 30,
+      "backgroundMs": 0
+    }
+  },
+
+  "skills": {
+    "entries": {
+      "recipe-generate": {
+        "enabled": true,
+        "env": {
+          "RECIPE_LM_API_URL": "${RECIPE_LM_API_URL}"
+        }
+      },
+      "clawdtalk-client": {
+        "enabled": true,
+        "apiKey": "${CLAWDTALK_API_KEY}"
+      }
+    }
+  },
+
+  "messages": {
+    "responsePrefix": "",
+    "queue": {
+      "mode": "collect",
+      "debounceMs": 500
+    }
+  },
+
+  "session": {
+    "scope": "per-sender",
+    "reset": {
+      "mode": "idle",
+      "idleMinutes": 30
+    }
+  }
+}
