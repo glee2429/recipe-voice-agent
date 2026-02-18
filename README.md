@@ -17,8 +17,20 @@ Call a phone number, ask for a recipe, and the agent generates one using a fine-
 ```
 
 - **Single Docker container**: OpenClaw gateway (foreground) + ClawdTalk WebSocket client (background)
-- **No local GPU needed**: Recipe generation happens on HuggingFace Spaces
+- **Two models, separate roles**: Claude Haiku handles conversation and tool routing (the "brain"); recipe generation is done entirely by the fine-tuned Gemma-2B model on HuggingFace Spaces — Haiku never generates recipes itself
+- **No local GPU needed**: Recipe inference happens on HuggingFace Spaces via API
 - **Security**: Non-root user, loopback-only gateway, minimal tool permissions (`exec` + `sessions_send` only), secrets via shell environment
+
+### How inference works
+
+| Step | What happens | Model used |
+|------|-------------|------------|
+| 1 | Caller speaks, Telnyx transcribes to text | Telnyx STT |
+| 2 | Agent understands the request and decides to call the recipe tool | Claude Haiku (Anthropic API) |
+| 3 | Agent runs `curl` to HuggingFace Space `POST /generate` | Fine-tuned Gemma-2B (HF Space) |
+| 4 | Agent formats the recipe and responds via voice | Claude Haiku + Telnyx TTS |
+
+The Anthropic API key is used **only** for the agent's conversational logic — understanding what the caller wants and deciding which tool to invoke. All recipe content comes from the [Gemma-2B LoRA model](https://huggingface.co/ClaireLee2429/gemma-2b-recipes-lora) deployed on HuggingFace Spaces.
 
 ## Quick Start
 
