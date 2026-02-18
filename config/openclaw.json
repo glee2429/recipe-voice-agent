@@ -1,10 +1,16 @@
 {
   "gateway": {
     "port": 18789,
+    "mode": "local",
     "bind": "loopback",
     "auth": {
       "mode": "token",
       "token": "${OPENCLAW_GATEWAY_TOKEN}"
+    },
+    "tools": {
+      "allow": [
+        "sessions_send"
+      ]
     }
   },
 
@@ -12,7 +18,7 @@
     "defaults": {
       "workspace": "~/.openclaw/workspace",
       "model": {
-        "primary": "anthropic/claude-sonnet-4-5"
+        "primary": "anthropic/claude-haiku-4-5"
       },
       "contextTokens": 50000,
       "maxConcurrent": 2
@@ -36,8 +42,7 @@
       "process"
     ],
     "exec": {
-      "timeoutSec": 30,
-      "backgroundMs": 0
+      "timeoutSec": 30
     }
   },
 
