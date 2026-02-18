@@ -41,7 +41,7 @@
       "read",
       "web_fetch"
     ],
-    "bash": {
+    "exec": {
       "timeoutSec": 30
     }
   },
