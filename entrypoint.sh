@@ -28,7 +28,7 @@ cat > ~/.openclaw/skills/clawdtalk-client/skill-config.json <<EOF
 {
     "api_key": "${CLAWDTALK_API_KEY}",
     "server": "${CLAWDTALK_SERVER:-https://clawdtalk.com}",
-    "greeting": "Thanks for calling Kitchen Genie! I'm here to help you explore new recipes. What would you like to cook today?"
+    "greeting": "Hey there! Welcome to Kitchen Genie. What are you in the mood to cook?"
 }
 EOF
 
