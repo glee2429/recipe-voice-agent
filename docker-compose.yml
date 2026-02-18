@@ -10,9 +10,9 @@ services:
     ports:
       - "127.0.0.1:18789:18789"
     volumes:
-      - openclaw_sessions:/home/clawuser/.openclaw/agents
+      - openclaw_sessions:/home/node/.openclaw/agents
     healthcheck:
-      test: ["CMD", "/home/clawuser/scripts/healthcheck.sh"]
+      test: ["CMD", "/home/node/scripts/healthcheck.sh"]
       interval: 30s
       timeout: 5s
       retries: 3

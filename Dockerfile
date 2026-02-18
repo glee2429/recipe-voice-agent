@@ -4,21 +4,20 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl jq git bash ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-# Non-root user
-RUN useradd -m -u 1000 -s /bin/bash clawuser
-USER clawuser
-WORKDIR /home/clawuser
-
-# Install OpenClaw
+# Install OpenClaw globally (requires root for /usr/local/lib)
 RUN npm install -g openclaw@latest
+
+# Switch to non-root 'node' user (uid 1000, provided by base image)
+USER node
+WORKDIR /home/node
 
 # Create directory structure
 RUN mkdir -p .openclaw/skills .openclaw/workspace
 
 # Copy configuration
-COPY --chown=clawuser:clawuser config/openclaw.json .openclaw/openclaw.json
-COPY --chown=clawuser:clawuser workspace/ .openclaw/workspace/
-COPY --chown=clawuser:clawuser skills/ .openclaw/skills/
+COPY --chown=node:node config/openclaw.json .openclaw/openclaw.json
+COPY --chown=node:node workspace/ .openclaw/workspace/
+COPY --chown=node:node skills/ .openclaw/skills/
 
 # Install ClawdTalk client
 RUN git clone https://github.com/team-telnyx/clawdtalk-client.git \
@@ -27,14 +26,14 @@ RUN git clone https://github.com/team-telnyx/clawdtalk-client.git \
     && npm install --production 2>/dev/null || true
 
 # Copy entrypoint and scripts
-COPY --chown=clawuser:clawuser entrypoint.sh /home/clawuser/entrypoint.sh
-COPY --chown=clawuser:clawuser scripts/ /home/clawuser/scripts/
-RUN chmod +x /home/clawuser/entrypoint.sh /home/clawuser/scripts/*.sh
+COPY --chown=node:node entrypoint.sh /home/node/entrypoint.sh
+COPY --chown=node:node scripts/ /home/node/scripts/
+RUN chmod +x /home/node/entrypoint.sh /home/node/scripts/*.sh
 
 # Gateway port (loopback only in prod, exposed for dev/debugging)
 EXPOSE 18789
 
 HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
-    CMD /home/clawuser/scripts/healthcheck.sh
+    CMD /home/node/scripts/healthcheck.sh
 
-ENTRYPOINT ["/home/clawuser/entrypoint.sh"]
+ENTRYPOINT ["/home/node/entrypoint.sh"]
