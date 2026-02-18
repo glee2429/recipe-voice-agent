@@ -3,9 +3,9 @@ services:
     build: .
     container_name: recipe-voice-agent
     restart: unless-stopped
-    env_file:
-      - .env
     environment:
+      - ANTHROPIC_API_KEY
+      - CLAWDTALK_API_KEY
       - RECIPE_LM_API_URL=${RECIPE_LM_API_URL:-https://ClaireLee2429-recipe-lm-api.hf.space}
     ports:
       - "127.0.0.1:18789:18789"

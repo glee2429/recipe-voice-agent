@@ -18,7 +18,7 @@ Call a phone number, ask for a recipe, and the agent generates one using a fine-
 
 - **Single Docker container**: OpenClaw gateway (foreground) + ClawdTalk WebSocket client (background)
 - **No local GPU needed**: Recipe generation happens on HuggingFace Spaces
-- **Security**: Non-root user, loopback-only gateway, minimal tool permissions, secrets via env vars
+- **Security**: Non-root user, loopback-only gateway, minimal tool permissions (`exec` + `sessions_send` only), secrets via shell environment
 
 ## Quick Start
 
@@ -27,25 +27,23 @@ Call a phone number, ask for a recipe, and the agent generates one using a fine-
 git clone https://github.com/glee2429/recipe-voice-agent.git
 cd recipe-voice-agent
 
-# 2. Configure secrets
-cp .env.example .env
-# Edit .env with your keys:
-#   ANTHROPIC_API_KEY  - from https://console.anthropic.com
-#   CLAWDTALK_API_KEY  - from https://clawdtalk.com
-#   OPENCLAW_GATEWAY_TOKEN - generate with: openssl rand -hex 32
+# 2. Export your API keys (add to ~/.zshrc or ~/.bashrc for persistence)
+export ANTHROPIC_API_KEY=sk-ant-...   # from https://console.anthropic.com
+export CLAWDTALK_API_KEY=cc_live_...  # from https://clawdtalk.com
 
 # 3. Build and run
 docker compose up --build
 
 # 4. Verify
-curl http://127.0.0.1:18789/health
+docker ps --filter name=recipe-voice-agent
 ```
+
+> **Never paste API keys into an AI assistant chat.** Set them in your shell environment or a secrets manager, and let Docker Compose inherit them.
 
 ## Configuration
 
 | File | Purpose |
 |------|---------|
-| `.env` | API keys and secrets (gitignored) |
 | `config/openclaw.json` | Gateway config, tool permissions, skill entries |
 | `workspace/AGENTS.md` | Agent identity and voice interaction rules |
 | `workspace/SOUL.md` | Agent personality |
@@ -57,9 +55,9 @@ curl http://127.0.0.1:18789/health
 |----------|----------|-------------|
 | `ANTHROPIC_API_KEY` | Yes | Anthropic API key for the agent's LLM |
 | `CLAWDTALK_API_KEY` | Yes | ClawdTalk API key from clawdtalk.com |
-| `OPENCLAW_GATEWAY_TOKEN` | Yes | Gateway auth token (random string) |
 | `RECIPE_LM_API_URL` | No | Defaults to `https://ClaireLee2429-recipe-lm-api.hf.space` |
-| `CLAWDTALK_SERVER` | No | Defaults to `https://clawdtalk.com` |
+
+`OPENCLAW_GATEWAY_TOKEN` is auto-generated at container startup. `CLAWDTALK_SERVER` defaults to `https://clawdtalk.com`.
 
 ## Related Projects
 

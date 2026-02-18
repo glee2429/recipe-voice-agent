@@ -16,6 +16,12 @@ for var in "${required_vars[@]}"; do
     fi
 done
 
+# ---- Auto-generate gateway token if not provided ----
+if [ -z "${OPENCLAW_GATEWAY_TOKEN:-}" ]; then
+    export OPENCLAW_GATEWAY_TOKEN=$(head -c 32 /dev/urandom | od -An -tx1 | tr -d ' \n')
+    echo "Generated OPENCLAW_GATEWAY_TOKEN (not set externally)."
+fi
+
 # ---- Generate ClawdTalk skill-config.json from env vars ----
 # Written at runtime so secrets never end up in Docker image layers
 cat > ~/.openclaw/skills/clawdtalk-client/skill-config.json <<EOF
