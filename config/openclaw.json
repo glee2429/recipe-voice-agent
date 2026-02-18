@@ -7,11 +7,7 @@
       "mode": "token",
       "token": "${OPENCLAW_GATEWAY_TOKEN}"
     },
-    "tools": {
-      "allow": [
-        "sessions_send"
-      ]
-    }
+    "tools": {}
   },
 
   "agents": {
@@ -26,10 +22,6 @@
   },
 
   "tools": {
-    "alsoAllow": [
-      "sessions_send",
-      "bash"
-    ],
     "deny": [
       "write",
       "edit",

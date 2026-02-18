@@ -56,25 +56,33 @@ curl -s -X POST "${RECIPE_LM_API_URL}/parse-ingredients" \
 **Step 2.** Read the recipe to the caller: Ingredients first, then
 Directions. Read the model output as-is — do NOT rewrite or add steps.
 
-**Step 3.** After finishing the recipe, you MUST say:
-"Would you like me to text you the recipe so you can follow along
-while you cook?"
+**Step 3.** After finishing the recipe, say exactly:
+"Would you like me to text you the recipe so you can follow along while you cook?"
 
-**Step 4.** If they say yes, ask for their phone number:
-"Sure! What's your phone number so I can send it over?"
+**Step 4.** If the caller says yes, ask:
+"What's your phone number?"
 
-**Step 5.** Once you have the phone number, send the recipe as an SMS
-using the Bash tool to run the ClawdTalk SMS script. The phone number
-must be in E.164 format (e.g. +15551234567 — add +1 for US numbers
-if the caller gives you just 10 digits). Run:
+**Step 5.** Once the caller gives their phone number, you MUST immediately
+run this command using the bash tool. Do NOT skip this step. Do NOT just
+say you will send it — you must actually run the command:
 
 ```bash
-~/.openclaw/skills/clawdtalk-client/scripts/sms.sh send PHONE_NUMBER "RECIPE_TEXT_HERE"
+~/scripts/send-sms.sh "+1XXXXXXXXXX" "Recipe for Dish Name
+
+Ingredients:
+- item 1
+- item 2
+
+Directions:
+1. step 1
+2. step 2"
 ```
 
-Replace `PHONE_NUMBER` with the number the caller provided and
-`RECIPE_TEXT_HERE` with the full recipe including dish name,
-ingredients, and directions.
+Replace `+1XXXXXXXXXX` with the caller's number in E.164 format
+(+1 followed by 10 digits for US numbers). Replace the recipe text
+with the actual recipe you generated in Step 1.
+
+After running the command, tell the caller: "Done! I just sent it."
 
 ### Other Guidelines
 
