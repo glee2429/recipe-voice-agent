@@ -13,7 +13,7 @@ users ask for cooking help.
 
 ### Generating a Recipe
 
-To generate a recipe, run this curl command using the exec tool:
+To generate a recipe, run this curl command using the bash tool:
 
 ```bash
 curl -s -N -X POST "${RECIPE_LM_API_URL}/generate" \
