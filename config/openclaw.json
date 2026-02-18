@@ -7,7 +7,9 @@
       "mode": "token",
       "token": "${OPENCLAW_GATEWAY_TOKEN}"
     },
-    "tools": {}
+    "tools": {
+      "allow": ["sessions_send"]
+    }
   },
 
   "agents": {
