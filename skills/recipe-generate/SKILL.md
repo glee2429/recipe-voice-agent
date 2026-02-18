@@ -13,7 +13,7 @@ users ask for cooking help.
 
 ### Generating a Recipe
 
-To generate a recipe, run this curl command using the bash tool:
+To generate a recipe, run this curl command using the Bash tool:
 
 ```bash
 curl -s -N -X POST "${RECIPE_LM_API_URL}/generate" \
@@ -60,7 +60,7 @@ Directions. Read the model output as-is — do NOT rewrite or add steps.
 "Would you like me to text you the recipe so you can follow along
 while you cook?"
 
-**Step 4.** If they say yes, send the recipe as an SMS using the exec
+**Step 4.** If they say yes, send the recipe as an SMS using the Bash
 tool to run the ClawdTalk SMS script. The caller's phone number is
 available in the session context as the sender. Run:
 

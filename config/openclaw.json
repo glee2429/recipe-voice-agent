@@ -29,7 +29,7 @@
     "profile": "minimal",
     "allow": [
       "sessions_send",
-      "bash"
+      "Bash"
     ],
     "deny": [
       "write",
@@ -41,7 +41,7 @@
       "read",
       "web_fetch"
     ],
-    "exec": {
+    "Bash": {
       "timeoutSec": 30
     }
   },
