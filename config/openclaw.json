@@ -70,9 +70,10 @@
   },
 
   "session": {
-    "scope": "ephemeral",
+    "scope": "per-sender",
     "reset": {
-      "mode": "always"
+      "mode": "idle",
+      "idleMinutes": 2
     }
   }
 }
