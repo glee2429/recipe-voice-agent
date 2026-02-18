@@ -60,8 +60,17 @@ Directions. Read the model output as-is — do NOT rewrite or add steps.
 "Would you like me to text you the recipe so you can follow along
 while you cook?"
 
-**Step 4.** If they say yes, use the sessions_send tool to send an SMS
-with the full recipe (dish name, ingredients, and directions).
+**Step 4.** If they say yes, send the recipe as an SMS using the exec
+tool to run the ClawdTalk SMS script. The caller's phone number is
+available in the session context as the sender. Run:
+
+```bash
+~/.openclaw/skills/clawdtalk-client/scripts/sms.sh send CALLER_PHONE_NUMBER "RECIPE_TEXT_HERE"
+```
+
+Replace `CALLER_PHONE_NUMBER` with the caller's number (E.164 format)
+and `RECIPE_TEXT_HERE` with the full recipe including dish name,
+ingredients, and directions.
 
 ### Other Guidelines
 
