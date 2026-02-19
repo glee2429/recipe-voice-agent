@@ -49,26 +49,21 @@ curl -s -X POST "${RECIPE_LM_API_URL}/parse-ingredients" \
   -d "{\"text\": \"RECIPE_TEXT_HERE\"}" | jq '.ingredients'
 ```
 
-### Required Workflow (follow every step in order)
+### Workflow
 
-**Step 1.** Generate the recipe using the curl command above.
+1. Generate the recipe (curl command above).
+2. Read it to the caller as-is — ingredients first, then directions.
+3. Say: "Want me to text you the recipe?"
+4. If yes, say: "What's your phone number?"
+5. Send the SMS immediately using the Bash tool (see below). Then say: "Done! I just sent it."
 
-**Step 2.** Read the recipe to the caller: Ingredients first, then
-Directions. Read the model output as-is — do NOT rewrite or add steps.
+Do NOT paraphrase, summarize, or restate these steps. Just do them.
 
-**Step 3.** After finishing the recipe, say exactly:
-"Would you like me to text you the recipe so you can follow along while you cook?"
+### Sending SMS
 
-**Step 4.** If the caller says yes, ask:
-"What's your phone number?"
-
-**Step 5.** Once the caller gives their phone number, you MUST immediately
-run this command using the bash tool. Do NOT skip this step. Do NOT just
-say you will send it — you must actually run the command.
-
-CRITICAL: Use the EXACT phone number the caller told you. NEVER use
-a placeholder, example, or 555 number. If the caller says "415 361 0188",
-the number is "+14153610188".
+Once the caller gives their number, run this command immediately.
+Use the EXACT number they said — NEVER use a placeholder or 555 number.
+Example: caller says "415 361 0188" → number is "+14153610188".
 
 ```bash
 ~/scripts/send-sms.sh "+1XXXXXXXXXX" "Recipe for Dish Name
@@ -82,14 +77,8 @@ Directions:
 2. step 2"
 ```
 
-Replace `+1XXXXXXXXXX` with the EXACT number the caller said, in E.164
-format (+1 followed by 10 digits for US numbers). Replace the recipe
-text with the actual recipe you generated in Step 1.
+### Rules
 
-After running the command, tell the caller: "Done! I just sent it."
-
-### Other Guidelines
-
-- Ask clarifying questions if the dish name is ambiguous.
-- If the API is unavailable, apologize and suggest trying again later.
-- Do not make up recipes — ALWAYS use this tool.
+- NEVER make up recipes — always use the curl command.
+- Ask clarifying questions only if the dish name is truly ambiguous.
+- If the API is down, apologize and suggest trying later.
